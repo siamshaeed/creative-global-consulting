@@ -1,0 +1,89 @@
+@extends('layouts.backend')
+@push('styles')
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+@endpush
+
+@section('title')
+    User List | Creative Global Consultancy
+@endsection
+
+@section('content')
+    <div class="row">
+        <div class="col-xl-12">
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">User List</h4>
+                </div>
+                <div class="card-body">
+                    <div class="box-body table-responsive">
+
+                        <table id="example1" class="table table-bordered">
+
+                            <thead class="thead-light">
+                            <tr class="">
+                                <th>SL</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>IELTS</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            @foreach($users as $user)
+                                @if($user)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->phone }}</td>
+                                        @if($user->ielts_score)
+                                         <td>{{ $user->ielts_score }}</td>
+                                        @else
+                                            <td>No</td>
+                                        @endif
+                                        <td>
+                                            <a type="button" class="btn btn-primary btn-icon btn-sm"
+                                               data-placement="top" title="View Profile Details" data-original-title="Edit"
+                                               href="{{route('userlist.show', $user->id)}}"
+                                               data-title="{{__("User Details")}}">
+                                                <i class="dripicons-preview"></i>
+                                            </a>
+
+                                            <a type="button" class="btn btn-info btn-icon btn-sm"
+                                               data-placement="top" title="Appropriate university List" data-original-title="Edit"
+                                               href="{{route('searchUniversity', $user->id)}}"
+                                               data-title="{{__("User University")}}">
+                                                <i class="bx bx-border-all"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@push('scripts')
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(function () {
+            $('#example1').DataTable({
+                "paging": true,
+                "lengthChange": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false
+            });
+        });
+    </script>
+@endpush
